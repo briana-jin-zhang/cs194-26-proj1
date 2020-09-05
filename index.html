@@ -38,8 +38,10 @@
 
     <p>
       I was pretty satisfied and so then I tried to apply this to the rest of the images. But then I found
-      a few problems. The window of displacement, -15 to 15, I had initially was not big enough for the tif images. When I
-      widened the window, it also took much more time. So this is when I implemented image pyramid.  
+      a few problems. The window of displacement [-15, 15] I had initially was not big enough for the tif images. When I
+      widened the window, it also took much more time. So this is when I implemented image pyramid. I scaled down the tif files 
+      by half multiple times, applying the normal NCC to the smallest image, and adjusting the calculated shift by displacements 
+      of [-2, 2]. At one point, the displacement of [-15, 15] was not large enough for the smallest melons picture, so I changed that to [-50, 50]. 
     <p>
 
     <h2> Results </h2>
@@ -154,15 +156,24 @@
     <p>
       Another observation is that notably, the emir.tif image failed by a large margin. This is because 
       the emir's dress is very particular, which causes trouble with the alignment method that uses NCC.
-      NCC trys to match dark pixels to dark pixels and light pixels to light pixels. Notice that the blue channel
-      has the emir's darkness and whiteness inverted from the green and red channels. As a result,
-      the green and red look almost aligned, but the blue slate is very off.
+      NCC tries to match darker pixels to darker pixels and lighter pixels to ligher pixels. Notice that the blue channel
+      has the emir's darkness and whiteness inverted from the green and red channels. As a result, the positions are very off.
     </p>
 
     <img src="images/emir_channels.jpg" alt="emir_channels.jpg" width=800>
 
     <h2> Improvements </h2>
+    <p>
+      In order to resolve the problem of the emir image, I instead use the Canny edge detector. I use the edge detector to detect the edges,
+      use normal mean squared error (because there is no benefit for adjusting for brightness from the result of edge detectors) and 
+      still use cropping to decrease error and the image pyramid technique for speed. 
+    <p>
 
+    <h3> Edge detection for blue channel </h3>
+    <img src="images/edges_emir.jpg" alt="edges_emir.jpg" width=800>
+
+    <h3> Result <h3>
+    <img src="images/emir_final.jpg" alt="emir_final.jpg" width=800>
 
   </body>
 </html>
