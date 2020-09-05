@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Images of the Russian Empire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <h1>Images of the Russian Empire: Colorizing the Prokudin-Gorskii photo collection</h1>
+
+    <h2> Introduction </h2>
+
+    <p>
+      In the 1900s, Prokudin-Gorskii gained permission by the tzar to take pictures throughout the vast 
+      Russian empire. He recorded three exposures of every scene on glass panes using red, green, and blue filters.
+      This project seeks to reproduce the true color images using image alignment techniques.  
+    </p>
+
+    <h2> Approach </h2>
+
+    <p>
+      First, out of curiosity, I tried to see how the image would look if I didn't do any alignment at all. 
+    <p>
+
+    <img src="images/not_aligned.jpg" alt="unaligned">
+
+    <p>
+      Next, I tried displacements of rows and columns of the array representations to align the red
+      channel with the blue, as well as aligning the green channel with the blue. This was done via scoring
+      by Normal Cross Correlation to see essentially see which displacements would align best when
+      measured by essentially a matrix dot product. I also cropped the edges of the images before measuring
+      as they were not reflective of the true image. I found that the more cropping, the better results.
+    <p>
+    
+    <img src="images/first_align.jpg" alt="first try">
+
+    <p>
+      I was pretty satisfied and so then I tried to apply this to the rest of the images. But then I found
+      a few problems. The window of displacement, -15 to 15, I had initially was not big enough for the tif images. When I
+      widened the window, it also took much more time. So this is when I implemented image pyramid.  
+    <p>
+
+    <h2> Results </h2>
+    <p> Listed below each image is the displacement (rows, columns) of the green and red channels when aligning to blue.</p>
+
+    <h3> cathedral.jpg </h3>
+    <img src="images/cathedral.jpg" alt="cathedral.jpg">
+    <ul> 
+      <li>G: [5, 2]</li>
+      <li>R: [12, 3]</li>
+    </ul>
+    
+    <h3> icon.tif </h3>
+    <img src="images/icon.jpg" alt="icon.jpg" width=800>
+    <ul> 
+      <li>G: [41, 17]</li>
+      <li>R: [89, 23]</li>
+    </ul>
+
+    <h3> onion_church.tif </h3>
+    <img src="images/onion_church.jpg" alt="onion_church.jpg" width=800>
+    <ul> 
+      <li>G: [51, 26]</li>
+      <li>R: [108, 36]</li>
+    </ul>
+
+    <h3> tobolsk.jpg </h3>
+    <img src="images/tobolsk.jpg" alt="tobolsk.jpg">
+    <ul> 
+      <li>G: [3, 2]</li>
+      <li>R: [6, 3]</li>
+    </ul>
+
+    <h3> lady.tif </h3>
+    <img src="images/lady.jpg" alt="lady.jpg" width=800>
+    <ul> 
+      <li>G: [49, 9]</li>
+      <li>R: [111, 11]</li>
+    </ul>
+
+    <h3> train.tif </h3>
+    <img src="images/train.jpg" alt="train.jpg" width=800>
+    <ul> 
+      <li>G: [42, 5]</li>
+      <li>R: [87, 32]</li>
+    </ul>
+
+    <h3> castle.tif </h3>
+    <img src="images/castle.jpg" alt="castle.jpg" width=800>
+    <ul> 
+      <li>G: [35, 3]</li>
+      <li>R: [98, 4]</li>
+    </ul>
+
+    <h3> melons.tif </h3>
+    <img src="images/melons.jpg" alt="melons.jpg" width=800>
+    <ul> 
+      <li>G: [82, 10]</li>
+      <li>R: [178, 13]</li>
+    </ul>
+
+    <h3> self_portrait.tif </h3>
+    <img src="images/self_portrait.jpg" alt="self_portrait.jpg" width=800>
+    <ul> 
+      <li>G: [78, 29]</li>
+      <li>R: [176, 37]</li>
+    </ul>
+
+    <h3> workshop.tif </h3>
+    <img src="images/workshop.jpg" alt="workshop.jpg" width=800>
+    <ul> 
+      <li>G: [52, 0]</li>
+      <li>R: [105, -12]</li>
+    </ul>
+
+    <h3> harvesters.tif </h3>
+    <img src="images/harvesters.jpg" alt="harvesters.jpg" width=800>
+    <ul> 
+      <li>G: [59, 16]</li>
+      <li>R: [124, 13]</li>
+    </ul>
+
+    <h3> monastery.jpg </h3>
+    <img src="images/monastery.jpg" alt="monastery.jpg">
+    <ul> 
+      <li>G: [-3, 2]</li>
+      <li>R: [3,2]</li>
+    </ul>
+
+    <h3> three_generations.tif </h3>
+    <img src="images/three_generations.jpg" alt="three_generations.jpg" width=800>
+    <ul> 
+      <li>G: [53, 14]</li>
+      <li>R: [112, 11]</li>
+    </ul>
+
+    <h3> emir.tif </h3>
+    <img src="images/emir.jpg" alt="emir.jpg" width=800>
+    <ul> 
+      <li>G: [49, 24]</li>
+      <li>R: [123, -389]</li>
+    </ul>
+
+    <h2> Observations </h2>
+    <p>
+      The smaller images were more blurry and possibly less aligned because of their limited number of pixels. For example, 
+      it wouldn't be possible to shift the pixels by a half, unless new pixels were computed to 
+      predict the new pixels between the existing pixels. This would artificially increase the size 
+      of the image and allow for nuance in how much to displace the pictures.
+    </p>
+
+    <p>
+      Another observation is that notably, the emir.tif image failed by a large margin. This is because 
+      the emir's dress is very particular, which causes trouble with the alignment method that uses NCC.
+      NCC trys to match dark pixels to dark pixels and light pixels to light pixels.  
+    </p>
+
+    <img src="images/emir_channels.jpg" alt="emir_channels.jpg" width=800>
+
+    <h2> Improvements </h2>
+    
+
+  </body>
+</html>
