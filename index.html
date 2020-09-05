@@ -13,7 +13,8 @@
 
     <p>
       In the 1900s, Prokudin-Gorskii gained permission by the tzar to take pictures throughout the vast 
-      Russian empire. He recorded three exposures of every scene on glass panes using red, green, and blue filters.
+      Russian empire. He recorded exposures of every scene on glass panes using red, green, and blue filters, 
+      envisioning the future world of colored images.
       This project seeks to reproduce the true color images using image alignment techniques.  
     </p>
 
@@ -147,19 +148,21 @@
       The smaller images were more blurry and possibly less aligned because of their limited number of pixels. For example, 
       it wouldn't be possible to shift the pixels by a half, unless new pixels were computed to 
       predict the new pixels between the existing pixels. This would artificially increase the size 
-      of the image and allow for nuance in how much to displace the pictures.
+      of the image and allow for more control in the amount of displacement of the channels.
     </p>
 
     <p>
       Another observation is that notably, the emir.tif image failed by a large margin. This is because 
       the emir's dress is very particular, which causes trouble with the alignment method that uses NCC.
-      NCC trys to match dark pixels to dark pixels and light pixels to light pixels.  
+      NCC trys to match dark pixels to dark pixels and light pixels to light pixels. Notice that the blue channel
+      has the emir's darkness and whiteness inverted from the green and red channels. As a result,
+      the green and red look almost aligned, but the blue slate is very off.
     </p>
 
     <img src="images/emir_channels.jpg" alt="emir_channels.jpg" width=800>
 
     <h2> Improvements </h2>
-    
+
 
   </body>
 </html>
