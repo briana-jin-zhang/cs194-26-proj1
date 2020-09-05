@@ -1,11 +1,11 @@
 
 html {
-  background-color: #003262;
+  background-color: white;
 }
 
 h1 {
   font-size: 50px;
-  color: rgb(209, 184, 142);
+  color: rgb(122, 117, 117);
   text-align: center;
   font-family: 'Kaushan Script', cursive;
   margin: 0;
@@ -15,18 +15,18 @@ h1 {
 
 h2 {
   font-size: 30px;
-  color: rgb(221, 214, 198);
+  color: black;
 }
 
 h3 {
   font-size: 30px;
-  color: rgb(221, 214, 198);
+  color: black;
   text-align: center;
 }
 
 p, li {
   font-size: 24px;
-  color: rgb(202, 192, 164);
+  color:black;
   line-height: 2;
   letter-spacing: 1px;
 }
