@@ -43,6 +43,16 @@ body {
 }
 
 img {
-  display: block;
+  display: table;
   margin: 0 auto;
+}
+
+div.container {
+  display: table;
+  margin: 0 auto;
+}
+
+div.imgContainer {
+  display: inline-block;
+  margin-left: 15px;
 }

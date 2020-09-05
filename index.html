@@ -41,11 +41,104 @@
       a few problems. The window of displacement [-15, 15] I had initially was not big enough for the tif images. When I
       widened the window, it also took much more time. So this is when I implemented image pyramid. I scaled down the tif files 
       by half multiple times, applying the normal NCC to the smallest image, and adjusting the calculated shift by displacements 
-      of [-2, 2]. At one point, the displacement of [-15, 15] was not large enough for the smallest melons picture, so I changed that to [-50, 50]. 
+      of [-2, 2]. At one point, the displacement of [-15, 15] was not large enough for the smallest melons picture, so I changed 
+      the displacement to (-50, 50]. 
     <p>
 
+    <div class = 'container'>
+      <div class='imgContainer'> 
+        <img src="images/first_melons.jpg" alt="first_melons.jpg" width=450>
+        <ul> 
+          <li>displacement: [-15, 15]</li>
+        </ul>
+      </div>
+  
+      <div class='imgContainer'> 
+        <img src="images/melons.jpg" alt="melons.jpg" width=450>
+        <ul> 
+          <li>displacement: (-50, 50]</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2> Observations </h2>
+    <p>
+      The smaller images were more blurry and possibly less aligned because of their limited number of pixels. For example, 
+      it wouldn't be possible to shift the pixels by a half, unless new pixels were computed to 
+      predict the new pixels between the existing pixels. This would artificially increase the size 
+      of the image and allow for more control in the amount of displacement of the channels.
+    </p>
+
+    <p>
+      Another observation is that notably, the emir.tif image failed by a large margin. This is because 
+      the emir's dress is very particular, which causes trouble with the alignment method that uses NCC.
+      NCC tries to match darker pixels to darker pixels and lighter pixels to ligher pixels. Notice that the blue channel
+      has the emir's darkness and whiteness inverted from the green and red channels. As a result, the positions are very off.
+    </p>
+
+    <!-- <img src="images/emir_channels.jpg" alt="emir_channels.jpg" width=800> -->
+    <div class = 'container' id = 'edges'>
+      <div class='imgContainer'> 
+        <h3> Blue </h3>
+        <img src="images/emir_blue.jpg" alt="emir_blue.jpg" width=300>
+      </div>
+  
+      <div class='imgContainer'> 
+        <h3> Green </h3>
+        <img src="images/emir_green.jpg" alt="emir_green.jpg" width=300>
+      </div>
+
+      <div class='imgContainer'> 
+        <h3> Red </h3>
+        <img src="images/emir_red.jpg" alt="emir_red.jpg" width=300>
+      </div>
+    </div>
+
+    <h2> Improvements </h2>
+    <p>
+      In order to resolve the problem of the emir image, I instead use the Canny edge detector. I use the edge detector to detect the edges,
+      with a dot product without normalization to maximize (because there is no benefit for adjusting for brightness from the result of edge detectors).
+      I still use cropping to decrease error and the image pyramid technique for speed. 
+    <p>
+
+    <h3> Edge Detection </h3>
+    <!-- <img src="images/edges_emir.jpg" alt="edges_emir.jpg" width=800> -->
+    <div class = 'container'>
+      <div class='imgContainer'> 
+        <h3> Blue </h3>
+        <img src="images/emir_b_edges.jpg" alt="emir_b_edges.jpg" width=300>
+      </div>
+  
+      <div class='imgContainer'> 
+        <h3> Green </h3>
+        <img src="images/emir_g_edges.jpg" alt="emir_g_edges.jpg" width=300>
+      </div>
+
+      <div class='imgContainer'> 
+        <h3> Red </h3>
+        <img src="images/emir_r_edges.jpg" alt="emir_r_edges.jpg" width=300>
+      </div>
+    </div>
+
+    <div class = 'container'>
+      <div class='imgContainer'> 
+        <h3> Before </h3>
+        <img src="images/emir.jpg" alt="emir.jpg" width=450>
+      </div>
+  
+      <div class='imgContainer'> 
+        <h3> After </h3>
+        <img src="images/emir_final.jpg" alt="emir_final.jpg" width=450>
+      </div>
+    </div>
+
     <h2> Results </h2>
-    <p> Listed below each image is the displacement (rows, columns) of the green and red channels when aligning to blue.</p>
+    <p> The following pictures are the results of the first algorithm. 
+      Listed below each image is the displacement (rows, columns) of the green and red channels 
+      when aligning to blue. 
+      The improved algorithm based off of edge detection did not yield significantly better results
+      for any photo besides emir.tif.
+    </p>
 
     <h3> cathedral.jpg </h3>
     <img src="images/cathedral.jpg" alt="cathedral.jpg">
@@ -117,6 +210,13 @@
       <li>R: [105, -12]</li>
     </ul>
 
+    <h3> emir.tif </h3>
+    <img src="images/emir.jpg" alt="emir.jpg" width=800>
+    <ul> 
+      <li>G: [49, 24]</li>
+      <li>R: [123, -389]</li>
+    </ul>
+
     <h3> harvesters.tif </h3>
     <img src="images/harvesters.jpg" alt="harvesters.jpg" width=800>
     <ul> 
@@ -138,42 +238,10 @@
       <li>R: [112, 11]</li>
     </ul>
 
-    <h3> emir.tif </h3>
-    <img src="images/emir.jpg" alt="emir.jpg" width=800>
-    <ul> 
-      <li>G: [49, 24]</li>
-      <li>R: [123, -389]</li>
-    </ul>
-
-    <h2> Observations </h2>
-    <p>
-      The smaller images were more blurry and possibly less aligned because of their limited number of pixels. For example, 
-      it wouldn't be possible to shift the pixels by a half, unless new pixels were computed to 
-      predict the new pixels between the existing pixels. This would artificially increase the size 
-      of the image and allow for more control in the amount of displacement of the channels.
-    </p>
-
-    <p>
-      Another observation is that notably, the emir.tif image failed by a large margin. This is because 
-      the emir's dress is very particular, which causes trouble with the alignment method that uses NCC.
-      NCC tries to match darker pixels to darker pixels and lighter pixels to ligher pixels. Notice that the blue channel
-      has the emir's darkness and whiteness inverted from the green and red channels. As a result, the positions are very off.
-    </p>
-
-    <img src="images/emir_channels.jpg" alt="emir_channels.jpg" width=800>
-
-    <h2> Improvements </h2>
-    <p>
-      In order to resolve the problem of the emir image, I instead use the Canny edge detector. I use the edge detector to detect the edges,
-      use normal mean squared error (because there is no benefit for adjusting for brightness from the result of edge detectors) and 
-      still use cropping to decrease error and the image pyramid technique for speed. 
-    <p>
-
-    <h3> Edge detection for blue channel </h3>
-    <img src="images/edges_emir.jpg" alt="edges_emir.jpg" width=800>
-
-    <h3> Result <h3>
-    <img src="images/emir_final.jpg" alt="emir_final.jpg" width=800>
+    <h2> Additional Images</h2>
+    <img src="images/ornament1.jpg" alt="ornament1.jpg" width=800>
+    <img src="images/ornament2.jpg" alt="ornament2.jpg" width=800>
+    <img src="images/cup.jpg" alt="cup.jpg" width=800>
 
   </body>
 </html>
